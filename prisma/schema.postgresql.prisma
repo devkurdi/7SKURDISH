@@ -1,10 +1,18 @@
+// ============================================
+// 7S PSYAR KURD - PostgreSQL Schema for Vercel
+// ============================================
+// This is the PostgreSQL schema used for Vercel deployment.
+// When deploying to Vercel with Neon PostgreSQL, replace
+// the content of schema.prisma with this file.
+// ============================================
+
 generator client {
   provider        = "prisma-client-js"
   binaryTargets   = ["native", "rhel-openssl-3.0.x"]
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 

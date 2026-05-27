@@ -138,7 +138,7 @@ export const useAppStore = create<AppState>((set) => ({
   incrementWrong: () => set((s) => ({ wrongCount: s.wrongCount + 1 })),
   score: 0,
   addScore: (pts) => set((s) => ({ score: s.score + pts })),
-  timeLeft: 120,
+  timeLeft: 60,
   setTimeLeft: (timeLeft) => set({ timeLeft }),
 
   isAdminAuth: false,
@@ -155,7 +155,7 @@ export const useAppStore = create<AppState>((set) => ({
       correctCount: 0,
       wrongCount: 0,
       score: 0,
-      timeLeft: 120,
+      timeLeft: 60,
       quizQuestions: [],
     }),
 }))

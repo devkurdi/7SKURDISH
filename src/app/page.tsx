@@ -21,7 +21,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 // ===================== TRANSLATIONS =====================
 const translations = {
   badini: {
-    appName: '7S SQUAD PSYAR',
+    appName: '7S PSYAR KURD',
     welcome: 'بەخێربێیت',
     enterName: 'ناڤێ خۆ بنڤیسە...',
     uploadAvatar: 'وێنە یان لۆگۆ باربکە',
@@ -100,7 +100,7 @@ const translations = {
     confirmDelete: 'دڵنیایت ژێدبڕیت؟',
   },
   sorani: {
-    appName: '7S SQUAD PSYAR',
+    appName: '7S PSYAR KURD',
     welcome: 'بەخێربێیت',
     enterName: 'ناوت بنووسە...',
     uploadAvatar: 'وێنە یان لۆگۆ باربکە',
@@ -204,8 +204,8 @@ function CircularTimer({ timeLeft, maxTime }: { timeLeft: number; maxTime: numbe
   const radius = 36
   const circumference = 2 * Math.PI * radius
   const strokeDashoffset = circumference - (percentage / 100) * circumference
-  const isLow = timeLeft <= 30
-  const isCritical = timeLeft <= 10
+  const isLow = timeLeft <= 15
+  const isCritical = timeLeft <= 5
 
   return (
     <div className="relative w-20 h-20 mx-auto">
@@ -555,7 +555,7 @@ function HomeSection() {
           <Gamepad2 className="w-10 h-10 text-white" />
         </motion.div>
         <h1 className="text-4xl md:text-5xl font-black text-white tracking-wider">
-          7S SQUAD <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-red-400 bg-clip-text text-transparent">PSYAR</span>
+          7S <span className="bg-gradient-to-r from-blue-400 via-purple-400 to-red-400 bg-clip-text text-transparent">PSYAR KURD</span>
         </h1>
         {playerName.trim() && (
           <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-green-300/70 mt-2 text-base" dir="rtl">
@@ -1150,7 +1150,7 @@ function QuizSection() {
   useEffect(() => {
     if (isAnswered || !quizQuestions.length) return
 
-    setTimeLeft(120)
+    setTimeLeft(60)
     timerRef.current = setInterval(() => {
       const current = useAppStore.getState().timeLeft
       if (current <= 1) {
@@ -1279,7 +1279,7 @@ function QuizSection() {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
       setSelectedAnswer(null)
       setIsAnswered(false)
-      setTimeLeft(120)
+      setTimeLeft(60)
     }
   }
 
@@ -1337,7 +1337,7 @@ function QuizSection() {
         <CardContent className="p-6 space-y-5">
           {/* Timer + Progress */}
           <div className="flex items-center justify-between">
-            <CircularTimer timeLeft={timeLeft} maxTime={120} />
+            <CircularTimer timeLeft={timeLeft} maxTime={60} />
             <div className="text-center" dir="rtl">
               <span className="text-white/40 text-xs">{t(lang, 'question')}</span>
               <div className="text-white font-bold text-lg">

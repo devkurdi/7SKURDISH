@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "7S SQUAD PSYAR - Quiz App",
+  title: "7S PSYAR KURD - Quiz App",
   description: "Kurdish Quiz Application - بەرنامەی کویزی کوردی",
   icons: {
     icon: "/logo.svg",
