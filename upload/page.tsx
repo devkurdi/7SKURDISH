@@ -9,175 +9,184 @@ import { Label } from '@/components/ui/label'
 import { Badge } from '@/components/ui/badge'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselPrevious,
+  CarouselNext,
+} from '@/components/ui/carousel'
+import {
   UserPlus, Shield, Plus, Trash2, Trophy, CheckCircle2,
-  XCircle, BookOpen, Languages,
+  XCircle, BookOpen, Languages, Search,
   Star, Zap, Sparkles, Eye, EyeOff,
   Gamepad2, Crown, Target, CircleDot, Medal,
   Users, ChevronDown, ChevronUp, Play, RotateCcw, ArrowLeft, ListChecks, BarChart3,
+  Clock, Flame, Brain, MapPin, Atom, Globe2, Dumbbell, Lightbulb,
+  ChevronLeft, ChevronRight, Heart, MessageCircle, Share2,
 } from 'lucide-react'
 import { useToast } from '@/hooks/use-toast'
 import { motion, AnimatePresence } from 'framer-motion'
 
 // ===================== TRANSLATIONS =====================
-const translations = {
-  badini: {
-    appName: '7S SQUAD PSYAR',
-    welcome: 'بەخێربێیت',
-    enterName: 'ناڤێ خۆ بنڤیسە...',
-    uploadAvatar: 'وێنە یان لۆگۆ باربکە',
-    startQuiz: 'دەستپێبکە',
-    selectCategory: 'جۆرێ پرسیارێ هەڵبژێرە',
-    allCategories: 'تەڤایەتی',
-    nextQuestion: 'پرسیارا دواوە',
-    viewResults: 'ئەنجامەکان ببینە',
-    correct: 'بەرسڤ دروسته!',
-    wrong: 'ببوورە بەرسڤ خەلەتە',
-    wrongCorrectIs: 'بەرسڤا درست ئەڤەیە',
-    timeUp: 'دەم ب دوماهی هات!',
-    timeUpCorrectIs: 'بەرسڤا درست ئەڤەیە',
-    seconds: 'چرکە',
-    question: 'پرسیار',
-    of: 'ژ',
-    score: 'خاڵ',
-    correctAnswers: 'بەرسڤێن دروست',
-    wrongAnswers: 'بەرسڤێن خەلەت',
-    adminPanel: 'ADMIN PANEL',
-    adminPassword: 'پەیڤا نهێنی ئەدمین',
-    addCategory: 'جۆرێ نوو زێدەبکە',
-    addQuestion: 'پرسیارێ نوو زێدەبکە',
-    delete: 'ژێببە',
-    save: 'پاشەکەوتبکە',
-    noQuestions: 'پرسیارێ نین',
-    backToHome: 'گەڕانەوە دەستپێک',
-    quizComplete: 'کویز تەواو بوو!',
-    yourScore: 'خاڵێ تە',
-    questions: 'پرسیار',
-    invalidPassword: 'پەیڤا نهێنی خەلەتە!',
-    badini: 'بادینی',
-    sorani: 'سورانی',
-    retryQuiz: 'دووبارە کویز',
-    excellent: 'ئەلەم! سەرکەوتن!',
-    good: 'باشە! بەردەوامبە!',
-    tryAgain: 'هەوڵبدەرەوە!',
-    availableQuestions: 'پرسیارێن بەردەست',
-    chooseAndStart: 'جۆرێ هەڵبژێرە و دەستپێبکە',
-    pointsPerQuestion: '١٠ خاڵ',
-    topList: 'TOP',
-    playerName: 'ناوی یاریزان',
-    points: 'خاڵ',
-    enterAdminPass: 'پەیڤا نهێنی بنڤیسە...',
-    adminLogin: 'چوونەژوورێ ئەدمین',
-    rank: 'پلە',
-    noPlayersYet: 'هێشتا یاریزانێک نییە',
-    totalPoints: 'کۆی خاڵ',
-    welcomeBack: 'بەخێربێیتەوە',
-    enterNameToStart: 'ناڤێ خۆ بنڤیسە تا دەستپێبکەی',
-    quizSection: 'برسیاركرن',
-    topSection: 'TOP ١٠٠',
-    homeSection: 'HOME',
-    quizEnded: 'کویز تەواو بوو',
-    playAgain: 'دووبارە یاریبکە',
-    timeRemaining: 'چرکە',
-    category: 'جۆر',
-    manageQuestions: 'بەڕێوەبردنا پرسیاران',
-    manageCategories: 'بەڕێوەبردنا جۆران',
-    logout: 'دەرچوو',
-    questionNumber: 'پرسیاری ژمارە',
-    option: 'هەڵبژارتن',
-    correctOption: 'هەڵبژارتنا دروست',
-    questionsTab: 'برسیاركرن',
-    categoryNameBadini: 'ناڤێ جۆری بادینی',
-    categoryNameSorani: 'ناڤێ جۆری سورانی',
-    questionTextBadini: 'پرسیارا بادینی',
-    questionTextSorani: 'پرسیارا سورانی',
-    optionBadini: 'هەڵبژارتن بادینی',
-    optionSorani: 'هەڵبژارتن سورانی',
-    addNewQuestion: 'پرسیارێ نوو زێدەبکە',
-    addNewCategory: 'جۆرێ نوو زێدەبکە',
-    selectCategoryForQuestion: 'جۆرێ هەڵبژێرە بۆ پرسیارێ',
-    successAdded: 'سەرکەوتنەوە زێدەکرا',
-    errorAdded: 'خەلەتە! نەزێدەکرا',
-    confirmDelete: 'دڵنیایت ژێدبڕیت؟',
-  },
-  sorani: {
-    appName: '7S SQUAD PSYAR',
-    welcome: 'بەخێربێیت',
-    enterName: 'ناوت بنووسە...',
-    uploadAvatar: 'وێنە یان لۆگۆ باربکە',
-    startQuiz: 'دەستپێبکە',
-    selectCategory: 'جۆرى پرسیار هەڵبژێرە',
-    allCategories: 'تەواوى',
-    nextQuestion: 'پرسیارى دواتر',
-    viewResults: 'ئەنجامەکان ببینە',
-    correct: 'وەڵامى ڕاستە!',
-    wrong: 'ببورە وەڵام هەڵەیە',
-    wrongCorrectIs: 'وەڵامى ڕاست ئەمەیە',
-    timeUp: 'کات تەواو بوو!',
-    timeUpCorrectIs: 'وەڵامى ڕاست ئەمەیە',
-    seconds: 'چرکە',
-    question: 'پرسیار',
-    of: 'لە',
-    score: 'خاڵ',
-    correctAnswers: 'وەڵامى ڕاست',
-    wrongAnswers: 'وەڵامى هەڵە',
-    adminPanel: 'ADMIN PANEL',
-    adminPassword: 'وشەى نهێنى ئەدمین',
-    addCategory: 'جۆرى نوێ زیادبکە',
-    addQuestion: 'پرسیارى نوێ زیادبکە',
-    delete: 'سڕینەوە',
-    save: 'پاشەکەوتکردن',
-    noQuestions: 'پرسیارێک نییە',
-    backToHome: 'گەڕانەوە سەرەتا',
-    quizComplete: 'کویز تەواو بوو!',
-    yourScore: 'خاڵى تۆ',
-    questions: 'پرسیار',
-    invalidPassword: 'وشەى نهێنى هەڵەیە!',
-    badini: 'بادینی',
-    sorani: 'سورانی',
-    retryQuiz: 'دووبارە کویز',
-    excellent: 'ئەلەم! سەرکەوتن!',
-    good: 'باشە! بەردەوامبە!',
-    tryAgain: 'هەوڵبدەرەوە!',
-    availableQuestions: 'پرسیارە بەردەستەکان',
-    chooseAndStart: 'جۆرێک هەڵبژێرە و دەستپێبکە',
-    pointsPerQuestion: '١٠ خاڵ',
-    topList: 'TOP',
-    playerName: 'ناوى یاریزان',
-    points: 'خاڵ',
-    enterAdminPass: 'وشەى نهێنى بنووسە...',
-    adminLogin: 'چوونەژوورەوە ئەدمین',
-    rank: 'پلە',
-    noPlayersYet: 'هێشتا یاریزانێک نییە',
-    totalPoints: 'کۆى خاڵ',
-    welcomeBack: 'بەخێربێیتەوە',
-    enterNameToStart: 'ناوت بنووسە تا دەستپێبکەیت',
-    quizSection: 'پرسیارکردن',
-    topSection: 'TOP ١٠٠',
-    homeSection: 'HOME',
-    quizEnded: 'کویز تەواو بوو',
-    playAgain: 'دووبارە یاریبکە',
-    timeRemaining: 'چرکە',
-    category: 'جۆر',
-    manageQuestions: 'بەڕێوەبردنى پرسیارەکان',
-    manageCategories: 'بەڕێوەبردنى جۆرەکان',
-    logout: 'دەرچوون',
-    questionNumber: 'پرسیارى ژمارە',
-    option: 'هەڵبژاردن',
-    correctOption: 'هەڵبژاردنى ڕاست',
-    questionsTab: 'پرسیارکردن',
-    categoryNameBadini: 'ناوى جۆر بادینی',
-    categoryNameSorani: 'ناوى جۆر سورانی',
-    questionTextBadini: 'پرسیار بادینی',
-    questionTextSorani: 'پرسیار سورانی',
-    optionBadini: 'هەڵبژاردن بادینی',
-    optionSorani: 'هەڵبژاردن سورانی',
-    addNewQuestion: 'پرسیارى نوێ زیادبکە',
-    addNewCategory: 'جۆرى نوێ زیادبکە',
-    selectCategoryForQuestion: 'جۆرێک هەڵبژێرە بۆ پرسیار',
-    successAdded: 'سەرکەوتنەوە زیادکرا',
-    errorAdded: 'هەڵە! نەزیادکرا',
-    confirmDelete: 'دڵنیایت سڕینەوە؟',
-  },
+    const languages = {
+    badini: {
+        appName: '7S SQUAD PSYAR',
+        welcome: 'ب خێرهاتی',
+        enterName: 'ناڤێ خۆ بنڤیسە...',
+        uploadAvatar: 'وێنە یان لۆگۆ باربکە',
+        startQuiz: 'دەستپێبکە',
+        selectCategory: 'جۆرێ پرسیارێ بهەڵبژێرە',
+        allCategories: 'هەمی جۆر',
+        nextQuestion: 'پرسیارا بهێت',
+        viewResults: 'ئەنجامان ببینە',
+        correct: 'بەرسڤ دروسته!',
+        wrong: 'ببوورە بەرسڤ خەلەتە',
+        wrongCorrectIs: 'بەرسڤا دروست ئەڤەیە',
+        timeUp: 'دەم ب دوماهی هات!',
+        timeUpCorrectIs: 'بەرسڤا دروست ئەڤەیە',
+        seconds: 'چرکە',
+        question: 'پرسیار',
+        of: 'ژ',
+        score: 'خاڵ',
+        correctAnswers: 'بەرسڤێن دروست',
+        wrongAnswers: 'بەرسڤێن خەلەت',
+        adminPanel: 'ADMIN PANEL',
+        adminPassword: 'پەیڤا نهێنی یا ئەدمینی',
+        addCategory: 'جۆرێ نوو زێدەبکە',
+        addQuestion: 'پرسیارا نوو زێدەبکە',
+        delete: 'ژێببە',
+        save: 'پاشەکەوتبکە',
+        noQuestions: 'چ پرسیار نینن',
+        backToHome: 'زڤرین بۆ دەستپێکێ',
+        quizComplete: 'کویز ب دوماهی هات!',
+        yourScore: 'خاڵێن تە',
+        questions: 'پرسیار',
+        invalidPassword: 'پەیڤا نهێنی خەلەتە!',
+        badini: 'بادینی',
+        sorani: 'سورانی',
+        retryQuiz: 'دووبارەکرنا کویزی',
+        excellent: 'گەلەک باشە! سەرکەوتن!',
+        good: 'باشە! بەردەوامبە!',
+        tryAgain: 'دووبارە هەوڵبدە!',
+        availableQuestions: 'پرسیارێن بەردەست',
+        chooseAndStart: 'جۆرەکی بهەڵبژێرە و دەستپێبکە',
+        pointsPerQuestion: '١٠ خاڵ',
+        topList: 'TOP',
+        playerName: 'ناڤێ یاریزانی',
+        points: 'خاڵ',
+        enterAdminPass: 'پەیڤا نهێنی بنڤیسە...',
+        adminLogin: 'چوونەژوورێ یا ئەدمینی',
+        rank: 'پلە',
+        noPlayersYet: 'هێشتا چ یاریزان نینن',
+        totalPoints: 'کۆما خاڵان',
+        welcomeBack: 'ب خێرهاتییا دووبارە',
+        enterNameToStart: 'ناڤێ خۆ بنڤیسە بۆ دەستپێکرنێ',
+        quizSection: 'پشکێ پرسیاران',
+        topSection: 'TOP ١٠٠',
+        homeSection: 'HOME',
+        quizEnded: 'کویز ب دوماهی هات',
+        playAgain: 'دووبارە یاریبکە',
+        timeRemaining: 'چرکە',
+        category: 'جۆر',
+        manageQuestions: 'رێڤەبرنا پرسیاران',
+        manageCategories: 'رێڤەبرنا جۆران',
+        logout: 'دەرچوون',
+        questionNumber: 'پرسیارا ژمارە',
+        option: 'بژاردە',
+        correctOption: 'بژاردەیا دروست',
+        questionsTab: 'پرسیارکرن',
+        categoryNameBadini: 'ناڤێ جۆرێ بادینی',
+        categoryNameSorani: 'ناڤێ جۆرێ سورانی',
+        questionTextBadini: 'دەقێ پرسیارا بادینی',
+        questionTextSorani: 'دەقێ پرسیارا سورانی',
+        optionBadini: 'بژاردەیا بادینی',
+        optionSorani: 'بژاردەیا سورانی',
+        addNewQuestion: 'پرسیارا نوو زێدەبکە',
+        addNewCategory: 'جۆرێ نوو زێدەبکە',
+        selectCategoryForQuestion: 'جۆرەکی بۆ پرسیارێ بهەڵبژێرە',
+        successAdded: 'ب سەرکەوتوویی هاتە زێدەکرن',
+        errorAdded: 'خەلەتەک چێبوو! نەهاتە زێدەکرن',
+        confirmDelete: 'تۆ دڵنیایی دێ ژێبەی؟',
+    },
+    sorani: {
+        appName: '7S SQUAD PSYAR',
+        welcome: 'بەخێربێیت',
+        enterName: 'ناوت بنووسە...',
+        uploadAvatar: 'وێنە یان لۆگۆ باربکە',
+        startQuiz: 'دەستپێبکە',
+        selectCategory: 'جۆری پرسیار هەڵبژێرە',
+        allCategories: 'هەموو جۆرەکان',
+        nextQuestion: 'پرسیاری داهاتوو',
+        viewResults: 'ئەنجامەکان ببینە',
+        correct: 'وەڵامەکە ڕاستە!',
+        wrong: 'ببوورە وەڵامەکە هەڵەیە',
+        wrongCorrectIs: 'وەڵامی ڕاست ئەمەیە',
+        timeUp: 'کات تەواو بوو!',
+        timeUpCorrectIs: 'وەڵامی ڕاست ئەمەیە',
+        seconds: 'چرکە',
+        question: 'پرسیار',
+        of: 'لە',
+        score: 'خاڵ',
+        correctAnswers: 'وەڵامە ڕاستەکان',
+        wrongAnswers: 'وەڵامە هەڵەکان',
+        adminPanel: 'ADMIN PANEL',
+        adminPassword: 'وشەی نهێنیی ئەدمین',
+        addCategory: 'جۆری نوێ زیادبکە',
+        addQuestion: 'پرسیاری نوێ زیادبکە',
+        delete: 'بسڕەوە',
+        save: 'پاشەکەوت بکە',
+        noQuestions: 'هیچ پرسیارێک نییە',
+        backToHome: 'گەڕانەوە بۆ سەرەتا',
+        quizComplete: 'کویزەکە تەواو بوو!',
+        yourScore: 'خاڵەکانی تۆ',
+        questions: 'پرسیار',
+        invalidPassword: 'وشەی نهێنی هەڵەیە!',
+        badini: 'بادینی',
+        sorani: 'سورانی',
+        retryQuiz: 'دووبارەکردنەوەی کویز',
+        excellent: 'زۆر نایابە! سەرکەوتوو بوویت!',
+        good: 'باشە! بەردەوام بە!',
+        tryAgain: 'دووبارە هەوڵ بدەرەوە!',
+        availableQuestions: 'پرسیارە بەردەستەکان',
+        chooseAndStart: 'جۆرێک هەڵبژێرە و دەستپێبکە',
+        pointsPerQuestion: '١٠ خاڵ',
+        topList: 'TOP',
+        playerName: 'ناوی یاریزان',
+        points: 'خاڵ',
+        enterAdminPass: 'وشەی نهێنی بنووسە...',
+        adminLogin: 'چوونەژوورەوەی ئەدمین',
+        rank: 'پلە',
+        noPlayersYet: 'هێشتا هیچ یاریزانێک نییە',
+        totalPoints: 'کۆی خاڵەکان',
+        welcomeBack: 'بەخێربێیتەوە',
+        enterNameToStart: 'ناوت بنووسە بۆ دەستپێکردن',
+        quizSection: 'بەشی پرسیارەکان',
+        topSection: 'TOP ١٠٠',
+        homeSection: 'HOME',
+        quizEnded: 'کویزەکە کۆتایی پێهات',
+        playAgain: 'دووبارە یاری بکەرەوە',
+        timeRemaining: 'چرکە',
+        category: 'جۆر',
+        manageQuestions: 'بەڕێوەبردنی پرسیارەکان',
+        manageCategories: 'بەڕێوەبردنی جۆرەکان',
+        logout: 'دەرچوون',
+        questionNumber: 'پرسیاری ژمارە',
+        option: 'هەڵبژاردن',
+        correctOption: 'هەڵبژاردنی ڕاست',
+        questionsTab: 'پرسیارکردن',
+        categoryNameBadini: 'ناوی جۆری بادینی',
+        categoryNameSorani: 'ناوی جۆری سورانی',
+        questionTextBadini: 'دەقی پرسیاری بادینی',
+        questionTextSorani: 'دەقی پرسیاری سورانی',
+        optionBadini: 'هەڵبژاردنی بادینی',
+        optionSorani: 'هەڵبژاردنی سورانی',
+        addNewQuestion: 'پرسیاری نوێ زیادبکە',
+        addNewCategory: 'جۆری نوێ زیادبکە',
+        selectCategoryForQuestion: 'جۆرێک بۆ پرسیارەکە هەڵبژێرە',
+        successAdded: 'بە سەرکەوتوویی زیادکرا',
+        errorAdded: 'هەڵەیەک ڕوویدا! زیاد نەکرا',
+        confirmDelete: 'دڵنیای دەتەوێت بیڕسیتەوە؟',
+    },
 }
 
 type TransKey = keyof typeof translations.badini
@@ -204,8 +213,8 @@ function CircularTimer({ timeLeft, maxTime }: { timeLeft: number; maxTime: numbe
   const radius = 36
   const circumference = 2 * Math.PI * radius
   const strokeDashoffset = circumference - (percentage / 100) * circumference
-  const isLow = timeLeft <= 30
-  const isCritical = timeLeft <= 10
+  const isLow = timeLeft <= 15
+  const isCritical = timeLeft <= 5
 
   return (
     <div className="relative w-20 h-20 mx-auto">
@@ -320,7 +329,7 @@ export default function App() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#0a0e27] via-[#0d1442] to-[#1a0a2e] relative">
+    <div className="min-h-screen min-h-[100dvh] bg-[#0a0e27] relative overflow-x-hidden">
       <AnimatedBackground />
       <div className="relative z-10">
         <NavBar />
@@ -350,7 +359,7 @@ function NavBar() {
 
   return (
     <>
-      <div className="sticky top-0 z-50 flex items-center justify-between px-3 py-2.5 bg-black/40 backdrop-blur-xl border-b border-white/10">
+      <div className="sticky top-0 z-50 flex items-center justify-between px-3 py-2 bg-[#0a0e27]/90 backdrop-blur-xl border-b border-white/[0.06]">
         {/* Left - Language Toggle */}
         <Button
           variant="outline"
@@ -768,10 +777,76 @@ function HomeSection() {
 }
 
 // ===================== QUESTIONS BROWSER SECTION =====================
+// Category icon mapping with Lucide icons for visual distinction
+const categoryStyles: Record<string, {
+  icon: React.ReactNode
+  gradient: string
+  iconBg: string
+  borderColor: string
+  glow: string
+}> = {
+  'ئایینی': {
+    icon: <Flame className="w-6 h-6 text-emerald-300" />,
+    gradient: 'from-emerald-500 to-teal-500',
+    iconBg: 'bg-emerald-500/20',
+    borderColor: 'border-emerald-500/30',
+    glow: 'shadow-emerald-500/20',
+  },
+  'زانستی': {
+    icon: <Atom className="w-6 h-6 text-blue-300" />,
+    gradient: 'from-blue-500 to-cyan-500',
+    iconBg: 'bg-blue-500/20',
+    borderColor: 'border-blue-500/30',
+    glow: 'shadow-blue-500/20',
+  },
+  'مێژوویی': {
+    icon: <Clock className="w-6 h-6 text-amber-300" />,
+    gradient: 'from-amber-500 to-orange-500',
+    iconBg: 'bg-amber-500/20',
+    borderColor: 'border-amber-500/30',
+    glow: 'shadow-amber-500/20',
+  },
+  'جوگرافی': {
+    icon: <Globe2 className="w-6 h-6 text-green-300" />,
+    gradient: 'from-green-500 to-emerald-500',
+    iconBg: 'bg-green-500/20',
+    borderColor: 'border-green-500/30',
+    glow: 'shadow-green-500/20',
+  },
+  'وەرزشی': {
+    icon: <Dumbbell className="w-6 h-6 text-red-300" />,
+    gradient: 'from-red-500 to-rose-500',
+    iconBg: 'bg-red-500/20',
+    borderColor: 'border-red-500/30',
+    glow: 'shadow-red-500/20',
+  },
+  'گشتی': {
+    icon: <Lightbulb className="w-6 h-6 text-purple-300" />,
+    gradient: 'from-purple-500 to-pink-500',
+    iconBg: 'bg-purple-500/20',
+    borderColor: 'border-purple-500/30',
+    glow: 'shadow-purple-500/20',
+  },
+}
+
+function getCatStyle(name: string) {
+  return categoryStyles[name] || {
+    icon: <BookOpen className="w-6 h-6 text-indigo-300" />,
+    gradient: 'from-indigo-500 to-blue-500',
+    iconBg: 'bg-indigo-500/20',
+    borderColor: 'border-indigo-500/30',
+    glow: 'shadow-indigo-500/20',
+  }
+}
+
 function QuestionsSection() {
   const lang = useAppStore(s => s.lang)
   const { categories } = useCategories()
   const [selectedCat, setSelectedCat] = useState<string>('')
+  const [viewMode, setViewMode] = useState<'categories' | 'list'>('categories')
+  const [searchTerm, setSearchTerm] = useState('')
+  const [activeSlide, setActiveSlide] = useState(0)
+  const [emblaApi, setEmblaApi] = useState<ReturnType<typeof useEmblaCarousel>[1] | null>(null)
   const { questions, loading, refetch } = useQuestions(selectedCat || undefined)
   const { playerName, setTab, setSelectedCategory, resetQuiz } = useAppStore()
   const { toast } = useToast()
@@ -793,120 +868,540 @@ function QuestionsSection() {
     setTab('quiz')
   }
 
+  const handleCategoryClick = (catId: string) => {
+    setSelectedCat(catId)
+    setViewMode('list')
+    refetch()
+  }
+
+  const totalQuestions = categories.reduce((sum, c) => sum + (c._count?.questions || 0), 0)
+
+  const filteredQuestions = searchTerm.trim()
+    ? questions.filter(q => {
+        const text = getQText(q).toLowerCase()
+        return text.includes(searchTerm.toLowerCase())
+      })
+    : questions
+
+  // Build carousel slides - each category gets its own slide
+  const carouselItems = [
+    { id: 'all', name: t(lang, 'allCategories'), nameKey: 'allCategories', gradient: 'from-blue-500 via-purple-500 to-red-500', iconBg: 'bg-gradient-to-br from-blue-500 via-purple-500 to-red-500', icon: <BookOpen className="w-10 h-10 text-white" />, qCount: totalQuestions, glow: 'shadow-purple-500/30' },
+    ...categories.map((cat) => {
+      const style = getCatStyle(cat.nameBadini)
+      return {
+        id: cat.id,
+        name: getCatName(cat),
+        nameKey: cat.nameBadini,
+        gradient: style.gradient,
+        iconBg: style.iconBg,
+        icon: style.icon,
+        qCount: cat._count?.questions || 0,
+        glow: style.glow,
+        borderColor: style.borderColor,
+      }
+    })
+  ]
+
+  // Auto-rotate carousel
+  useEffect(() => {
+    if (!emblaApi) return
+    const interval = setInterval(() => {
+      emblaApi.scrollNext()
+    }, 4000)
+    return () => clearInterval(interval)
+  }, [emblaApi])
+
+  // Track active slide
+  useEffect(() => {
+    if (!emblaApi) return
+    const onSelect = () => {
+      setActiveSlide(emblaApi.selectedScrollSnap())
+    }
+    emblaApi.on('select', onSelect)
+    onSelect()
+    return () => { emblaApi.off('select', onSelect) }
+  }, [emblaApi])
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="max-w-5xl mx-auto px-4 pt-4 pb-8 space-y-4"
+      className="max-w-5xl mx-auto px-4 pt-4 pb-8 space-y-5"
     >
       {/* Header */}
-      <div className="flex items-center justify-between" dir="rtl">
-        <div className="flex items-center gap-2">
-          <ListChecks className="w-5 h-5 text-blue-400" />
-          <h2 className="text-white font-bold text-lg">{t(lang, 'questionsTab')}</h2>
+      <div className="space-y-3" dir="rtl">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500 flex items-center justify-center shadow-xl shadow-purple-500/30">
+              <Brain className="w-6 h-6 text-white" />
+            </div>
+            <div>
+              <h2 className="text-white font-black text-xl">{t(lang, 'questionsTab')}</h2>
+              <div className="flex items-center gap-2 mt-0.5">
+                <div className="flex items-center gap-1">
+                  <ListChecks className="w-3 h-3 text-blue-400" />
+                  <span className="text-blue-300/60 text-[10px] font-bold">{totalQuestions} {t(lang, 'questions')}</span>
+                </div>
+                <div className="w-1 h-1 rounded-full bg-white/20" />
+                <div className="flex items-center gap-1">
+                  <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                  <span className="text-yellow-300/60 text-[10px] font-bold">{t(lang, 'pointsPerQuestion')}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+          {viewMode === 'list' && (
+            <Button
+              onClick={() => { setViewMode('categories'); setSelectedCat(''); setSearchTerm('') }}
+              variant="outline"
+              size="sm"
+              className="bg-white/5 border-white/10 text-white/60 hover:bg-white/10 rounded-xl text-xs"
+            >
+              <ArrowLeft className="w-3.5 h-3.5 mr-1" />
+              {t(lang, 'allCategories')}
+            </Button>
+          )}
         </div>
-        <span className="text-white/40 text-xs">{questions.length} {t(lang, 'questions')}</span>
       </div>
 
-      {/* Category Filter */}
-      <div className="flex gap-2 overflow-x-auto pb-2" dir="rtl">
-        <button
-          onClick={() => { setSelectedCat(''); refetch() }}
-          className={`flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-            !selectedCat
-              ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-              : 'bg-white/5 border border-white/10 text-white/60 hover:bg-white/10'
-          }`}
-        >
-          {t(lang, 'allCategories')}
-        </button>
-        {categories.map((cat) => (
-          <button
-            key={cat.id}
-            onClick={() => { setSelectedCat(cat.id); refetch() }}
-            className={`flex-shrink-0 px-4 py-2 rounded-xl text-xs font-bold transition-all ${
-              selectedCat === cat.id
-                ? 'bg-gradient-to-r from-blue-600 to-purple-600 text-white shadow-lg'
-                : 'bg-white/5 border border-white/10 text-white/60 hover:bg-white/10'
-            }`}
-          >
-            {getCatName(cat)} ({cat._count?.questions || 0})
-          </button>
-        ))}
-        {selectedCat && (
-          <Button
-            onClick={() => handleStartFromCategory(selectedCat)}
-            className="flex-shrink-0 bg-gradient-to-r from-green-600 to-emerald-600 text-white font-bold rounded-xl px-4 py-2 text-xs"
-          >
-            <Play className="w-3.5 h-3.5 mr-1.5" />
-            {t(lang, 'startQuiz')}
-          </Button>
-        )}
-      </div>
+      {/* ========== CAROUSEL VIEW (Categories) ========== */}
+      {viewMode === 'categories' && (
+        <div className="space-y-5">
+          {/* Stats Cards Row */}
+          <div className="grid grid-cols-3 gap-3">
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.1 }}
+              className="bg-gradient-to-br from-blue-500/10 to-blue-600/5 border border-blue-500/20 rounded-2xl p-3 text-center"
+            >
+              <BookOpen className="w-5 h-5 text-blue-400 mx-auto mb-1" />
+              <p className="text-white font-black text-lg">{totalQuestions}</p>
+              <p className="text-blue-300/50 text-[9px] font-bold">{t(lang, 'questions')}</p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.15 }}
+              className="bg-gradient-to-br from-purple-500/10 to-purple-600/5 border border-purple-500/20 rounded-2xl p-3 text-center"
+            >
+              <Target className="w-5 h-5 text-purple-400 mx-auto mb-1" />
+              <p className="text-white font-black text-lg">{categories.length}</p>
+              <p className="text-purple-300/50 text-[9px] font-bold">{t(lang, 'category')}</p>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.2 }}
+              className="bg-gradient-to-br from-yellow-500/10 to-yellow-600/5 border border-yellow-500/20 rounded-2xl p-3 text-center"
+            >
+              <Zap className="w-5 h-5 text-yellow-400 mx-auto mb-1" />
+              <p className="text-white font-black text-lg">١٠</p>
+              <p className="text-yellow-300/50 text-[9px] font-bold">{t(lang, 'points')}</p>
+            </motion.div>
+          </div>
 
-      {/* Questions List */}
-      {loading ? (
-        <div className="flex items-center justify-center py-12">
-          <div className="w-8 h-8 border-2 border-blue-400 border-t-transparent rounded-full animate-spin" />
-        </div>
-      ) : questions.length === 0 ? (
-        <div className="text-center py-12">
-          <BookOpen className="w-12 h-12 text-white/15 mx-auto mb-2" />
-          <p className="text-white/30 text-sm" dir="rtl">{t(lang, 'noQuestions')}</p>
-        </div>
-      ) : (
-        <ScrollArea className="max-h-[calc(100vh-220px)]">
-          <div className="space-y-2">
-            {questions.map((q, idx) => {
-              const catName = lang === 'badini' ? q.category.nameBadini : q.category.nameSorani
-              return (
-                <motion.div
-                  key={q.id}
-                  initial={{ opacity: 0, y: 5 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: idx * 0.02 }}
-                >
-                  <Card className="bg-white/[0.04] border-white/[0.08] hover:bg-white/[0.06] transition-all overflow-hidden">
-                    <CardContent className="p-4">
-                      <div className="flex items-start gap-3" dir="rtl">
-                        <span className="flex-shrink-0 w-8 h-8 rounded-lg bg-blue-500/15 border border-blue-500/15 flex items-center justify-center text-xs font-bold text-blue-300">
-                          {idx + 1}
-                        </span>
-                        <div className="flex-1 min-w-0 space-y-2">
-                          <div className="flex items-center gap-2">
-                            <Badge className="bg-purple-500/10 text-purple-300/70 border-purple-500/15 text-[9px] px-1.5 py-0">
-                              {catName}
-                            </Badge>
-                            <span className="text-yellow-400/50 text-[9px] flex items-center gap-0.5">
-                              <Star className="w-2.5 h-2.5 fill-yellow-400/50" /> ١٠ {t(lang, 'points')}
-                            </span>
+          {/* ===== CAROUSEL: Category Slider ===== */}
+          <motion.div
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25 }}
+          >
+            <div className="relative">
+              <Carousel
+                opts={{
+                  align: 'center',
+                  loop: true,
+                  dragFree: false,
+                }}
+                setApi={setEmblaApi}
+                className="w-full"
+              >
+                <CarouselContent className="-ml-4">
+                  {carouselItems.map((item, i) => (
+                    <CarouselItem key={item.id} className="pl-4 basis-[85%] sm:basis-[60%] md:basis-[45%]">
+                      <motion.div
+                        whileHover={{ scale: 1.02, y: -4 }}
+                        whileTap={{ scale: 0.97 }}
+                        className="h-full"
+                      >
+                        <div
+                          onClick={() => {
+                            if (item.id === 'all') {
+                              setSelectedCat('')
+                              setViewMode('list')
+                              refetch()
+                            } else {
+                              handleCategoryClick(item.id)
+                            }
+                          }}
+                          className={`rounded-3xl p-6 border-2 border-white/10 bg-gradient-to-br from-white/[0.04] to-white/[0.01] hover:from-white/[0.07] hover:to-white/[0.03] hover:border-white/20 transition-all duration-300 text-center group relative overflow-hidden cursor-pointer h-full min-h-[240px] flex flex-col items-center justify-center`}
+                        >
+                          {/* Top gradient bar */}
+                          <div className={`absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r ${item.gradient}`} />
+                          {/* Background glow */}
+                          <div className={`absolute inset-0 bg-gradient-to-br ${item.gradient} opacity-0 group-hover:opacity-[0.05] transition-opacity duration-500`} />
+                          {/* Floating particles effect */}
+                          <div className="absolute inset-0 overflow-hidden pointer-events-none">
+                            <div className={`absolute top-4 right-6 w-2 h-2 rounded-full bg-gradient-to-r ${item.gradient} opacity-20 animate-pulse`} />
+                            <div className={`absolute bottom-8 left-8 w-1.5 h-1.5 rounded-full bg-gradient-to-r ${item.gradient} opacity-15 animate-pulse`} style={{ animationDelay: '0.5s' }} />
+                            <div className={`absolute top-1/2 right-10 w-1 h-1 rounded-full bg-gradient-to-r ${item.gradient} opacity-10 animate-pulse`} style={{ animationDelay: '1s' }} />
                           </div>
-                          <p className="text-white/90 text-sm leading-relaxed">{getQText(q)}</p>
-                          <div className="grid grid-cols-2 gap-1.5">
-                            {[1, 2, 3, 4].map((optIdx) => (
-                              <div
-                                key={optIdx}
-                                className={`px-3 py-1.5 rounded-lg text-xs ${
-                                  optIdx === q.correctAnswer
-                                    ? 'bg-green-500/10 border border-green-500/20 text-green-300'
-                                    : 'bg-white/[0.03] border border-white/5 text-white/50'
-                                }`}
-                              >
-                                <span className="text-white/30 ml-1">{optIdx}.</span>
-                                {getOption(q, optIdx)}
+
+                          <div className="relative flex flex-col items-center">
+                            {/* Icon */}
+                            <div className={`mb-5 w-20 h-20 rounded-2xl ${item.id === 'all' ? item.iconBg : item.iconBg + ' border border-white/5'} flex items-center justify-center shadow-2xl ${item.glow} group-hover:scale-110 group-hover:shadow-3xl transition-all duration-500`}>
+                              {item.id === 'all'
+                                ? <BookOpen className="w-10 h-10 text-white" />
+                                : <div className="scale-125">{item.icon}</div>
+                              }
+                            </div>
+                            {/* Name */}
+                            <p className="text-white text-lg font-black mb-2 group-hover:text-white transition-colors" dir="rtl">{item.name}</p>
+                            {/* Question count */}
+                            <div className="flex items-center justify-center gap-1.5 mb-4">
+                              <CircleDot className={`w-2.5 h-2.5 ${item.id === 'all' ? 'text-purple-400' : ''}`} />
+                              <span className="text-white/40 text-xs font-bold">{item.qCount} {t(lang, 'questions')}</span>
+                            </div>
+                            {/* Points badge */}
+                            <div className="flex items-center justify-center gap-1 bg-yellow-500/10 border border-yellow-500/15 rounded-xl px-3 py-1.5 mb-4">
+                              <Star className="w-3 h-3 text-yellow-400 fill-yellow-400" />
+                              <span className="text-yellow-300/70 text-[10px] font-bold">{t(lang, 'pointsPerQuestion')}</span>
+                            </div>
+                            {/* Play button - shows on hover */}
+                            <div className="flex items-center justify-center gap-1.5 opacity-0 group-hover:opacity-100 transition-all duration-300 transform translate-y-2 group-hover:translate-y-0">
+                              <div className="w-8 h-8 rounded-full bg-gradient-to-r from-green-500 to-emerald-500 flex items-center justify-center shadow-lg shadow-green-500/30">
+                                <Play className="w-4 h-4 text-white" />
                               </div>
-                            ))}
+                              <span className="text-green-400 text-xs font-black">{t(lang, 'startQuiz')}</span>
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+
+                {/* Navigation Arrows */}
+                <CarouselPrevious className="absolute -left-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/10 backdrop-blur-xl border-white/10 text-white hover:bg-white/20 hover:text-white shadow-xl z-10 disabled:opacity-30" />
+                <CarouselNext className="absolute -right-2 top-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-white/10 backdrop-blur-xl border-white/10 text-white hover:bg-white/20 hover:text-white shadow-xl z-10 disabled:opacity-30" />
+              </Carousel>
+
+              {/* Dot Indicators */}
+              <div className="flex items-center justify-center gap-2 mt-4">
+                {carouselItems.map((_, i) => (
+                  <button
+                    key={i}
+                    onClick={() => emblaApi?.scrollTo(i)}
+                    className={`carousel-dot rounded-full transition-all duration-300 ${
+                      activeSlide === i
+                        ? 'w-6 h-2 bg-gradient-to-r from-blue-500 to-purple-500 shadow-lg shadow-purple-500/30'
+                        : 'w-2 h-2 bg-white/20 hover:bg-white/40'
+                    }`}
+                  />
+                ))}
+              </div>
+            </div>
+          </motion.div>
+
+          {/* Quick Start All Button */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5 }}
+          >
+            <Button
+              onClick={() => handleStartFromCategory('')}
+              disabled={!playerName.trim()}
+              className="w-full bg-gradient-to-r from-blue-600 via-purple-600 to-red-600 hover:from-blue-700 hover:via-purple-700 hover:to-red-700 text-white font-black text-base py-6 rounded-2xl shadow-xl shadow-purple-500/25 transition-all hover:shadow-2xl hover:scale-[1.01] disabled:opacity-40 disabled:hover:scale-100 relative overflow-hidden group"
+            >
+              <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+              <Play className="w-5 h-5 mr-2 relative" />
+              <span className="relative">{t(lang, 'startQuiz')} - {t(lang, 'allCategories')}</span>
+            </Button>
+          </motion.div>
+
+          {/* ===== BEAUTIFUL FOOTER ===== */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6 }}
+          >
+            <div className="relative rounded-3xl overflow-hidden">
+              {/* Background gradient */}
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-red-600/10" />
+              <div className="absolute inset-0 border border-white/[0.06] rounded-3xl" />
+              <div className="relative p-6 space-y-5">
+                {/* App Branding */}
+                <div className="flex items-center justify-center gap-3" dir="rtl">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 via-purple-500 to-red-500 flex items-center justify-center shadow-lg shadow-purple-500/20">
+                    <Gamepad2 className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-black text-base tracking-wide">
+                      7S SQUAD <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">PSYAR</span>
+                    </h3>
+                    <p className="text-white/30 text-[10px] font-bold">ئەپڵیکەیشنا پرسیار و بەرسڤ</p>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                  <Sparkles className="w-3 h-3 text-purple-400/40" />
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                </div>
+
+                {/* Feature icons row */}
+                <div className="flex items-center justify-center gap-6" dir="rtl">
+                  <div className="flex flex-col items-center gap-1.5 group">
+                    <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/15 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <BookOpen className="w-5 h-5 text-blue-400" />
+                    </div>
+                    <span className="text-white/30 text-[9px] font-bold">{categories.length} {t(lang, 'category')}</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 group">
+                    <div className="w-10 h-10 rounded-xl bg-yellow-500/10 border border-yellow-500/15 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Star className="w-5 h-5 text-yellow-400 fill-yellow-400" />
+                    </div>
+                    <span className="text-white/30 text-[9px] font-bold">{t(lang, 'pointsPerQuestion')}</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 group">
+                    <div className="w-10 h-10 rounded-xl bg-green-500/10 border border-green-500/15 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Trophy className="w-5 h-5 text-green-400" />
+                    </div>
+                    <span className="text-white/30 text-[9px] font-bold">TOP ١٠٠</span>
+                  </div>
+                  <div className="flex flex-col items-center gap-1.5 group">
+                    <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/15 flex items-center justify-center group-hover:scale-110 transition-transform">
+                      <Clock className="w-5 h-5 text-purple-400" />
+                    </div>
+                    <span className="text-white/30 text-[9px] font-bold">١٢٠ {t(lang, 'seconds')}</span>
+                  </div>
+                </div>
+
+                {/* Divider */}
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                  <Heart className="w-3 h-3 text-red-400/30" />
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                </div>
+
+                {/* Social / Credits */}
+                <div className="flex items-center justify-center gap-4">
+                  <button className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center hover:bg-white/[0.08] hover:scale-110 transition-all">
+                    <Heart className="w-3.5 h-3.5 text-red-400/60" />
+                  </button>
+                  <button className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center hover:bg-white/[0.08] hover:scale-110 transition-all">
+                    <Share2 className="w-3.5 h-3.5 text-blue-400/60" />
+                  </button>
+                  <button className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center hover:bg-white/[0.08] hover:scale-110 transition-all">
+                    <MessageCircle className="w-3.5 h-3.5 text-green-400/60" />
+                  </button>
+                </div>
+
+                {/* Version */}
+                <p className="text-center text-white/15 text-[9px] font-bold tracking-wider">
+                  7S SQUAD PSYAR v1.0
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      )}
+
+      {/* Questions List View */}
+      {viewMode === 'list' && (
+        <div className="space-y-4">
+          {/* Search Bar */}
+          <div className="relative">
+            <Search className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-white/20" />
+            <Input
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="bg-white/[0.04] border-white/10 text-white placeholder:text-white/20 focus:border-purple-400/50 rounded-2xl h-11 text-sm pr-10 pl-3"
+              placeholder={t(lang, 'selectCategory')}
+              dir="rtl"
+            />
+          </div>
+
+          {/* Category Header + Start Button */}
+          {selectedCat && (() => {
+            const cat = categories.find(c => c.id === selectedCat)
+            if (!cat) return null
+            const style = getCatStyle(cat.nameBadini)
+            return (
+              <motion.div
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+              >
+                <Card className={`bg-white/[0.04] backdrop-blur-xl border-white/10 shadow-xl overflow-hidden ${style.glow}`}>
+                  <div className={`h-1.5 bg-gradient-to-r ${style.gradient}`} />
+                  <CardContent className="p-5">
+                    <div className="flex items-center justify-between" dir="rtl">
+                      <div className="flex items-center gap-4">
+                        <div className={`w-14 h-14 rounded-2xl ${style.iconBg} border border-white/5 flex items-center justify-center shadow-lg ${style.glow}`}>
+                          {style.icon}
+                        </div>
+                        <div>
+                          <p className="text-white font-black text-base">{getCatName(cat)}</p>
+                          <div className="flex items-center gap-2 mt-0.5">
+                            <span className="text-white/30 text-[10px] font-bold">{questions.length} {t(lang, 'questions')}</span>
+                            <div className="w-1 h-1 rounded-full bg-white/20" />
+                            <span className="text-yellow-300/50 text-[10px] font-bold flex items-center gap-0.5">
+                              <Star className="w-2.5 h-2.5 fill-yellow-400/50 text-yellow-400/50" />
+                              ١٠ {t(lang, 'points')}
+                            </span>
                           </div>
                         </div>
                       </div>
-                    </CardContent>
-                  </Card>
-                </motion.div>
-              )
-            })}
-          </div>
-        </ScrollArea>
+                      <Button
+                        onClick={() => handleStartFromCategory(selectedCat)}
+                        disabled={!playerName.trim()}
+                        className="bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-black rounded-2xl text-xs px-5 py-3 shadow-lg shadow-green-500/20 disabled:opacity-40 transition-all hover:scale-105"
+                      >
+                        <Play className="w-4 h-4 mr-1.5" />
+                        {t(lang, 'startQuiz')}
+                      </Button>
+                    </div>
+                  </CardContent>
+                </Card>
+              </motion.div>
+            )
+          })()}
+
+          {/* Questions List */}
+          {loading ? (
+            <div className="flex items-center justify-center py-16">
+              <div className="w-10 h-10 border-3 border-blue-400 border-t-transparent rounded-full animate-spin" />
+            </div>
+          ) : filteredQuestions.length === 0 ? (
+            <div className="text-center py-16">
+              <BookOpen className="w-16 h-16 text-white/10 mx-auto mb-3" />
+              <p className="text-white/30 text-sm font-bold" dir="rtl">{t(lang, 'noQuestions')}</p>
+            </div>
+          ) : (
+            <div className="space-y-3">
+              {filteredQuestions.map((q, idx) => {
+                const catName = lang === 'badini' ? q.category.nameBadini : q.category.nameSorani
+                const style = getCatStyle(catName)
+                const optionLabels = ['A', 'B', 'C', 'D']
+                return (
+                  <motion.div
+                    key={q.id}
+                    initial={{ opacity: 0, y: 8, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    transition={{ delay: idx * 0.04, type: 'spring', stiffness: 400 }}
+                  >
+                    <Card className="bg-white/[0.03] border-white/[0.06] hover:bg-white/[0.06] hover:border-white/[0.1] transition-all duration-300 overflow-hidden group">
+                      <div className={`h-0.5 bg-gradient-to-r ${style.gradient} opacity-40 group-hover:opacity-70 transition-opacity`} />
+                      <CardContent className="p-4">
+                        <div className="flex items-start gap-3" dir="rtl">
+                          {/* Question Number Badge */}
+                          <div className={`flex-shrink-0 w-10 h-10 rounded-xl bg-gradient-to-br ${style.gradient} flex items-center justify-center shadow-lg ${style.glow}`}>
+                            <span className="text-sm font-black text-white">{idx + 1}</span>
+                          </div>
+                          <div className="flex-1 min-w-0 space-y-3">
+                            {/* Category + Points Tags */}
+                            <div className="flex items-center gap-2">
+                              <Badge className={`bg-gradient-to-r ${style.gradient} text-white border-0 text-[9px] px-2.5 py-0.5 font-black shadow-sm`}>
+                                {catName}
+                              </Badge>
+                              <span className="text-yellow-400/40 text-[9px] flex items-center gap-0.5 font-bold">
+                                <Star className="w-2.5 h-2.5 fill-yellow-400/40" /> ١٠ {t(lang, 'points')}
+                              </span>
+                            </div>
+                            {/* Question Text */}
+                            <p className="text-white/90 text-sm leading-relaxed font-bold">{getQText(q)}</p>
+                            {/* Options - compact 2x2 grid - NO answer revealed */}
+                            <div className="grid grid-cols-2 gap-1.5">
+                              {[1, 2, 3, 4].map((optIdx) => {
+                                return (
+                                  <div
+                                    key={optIdx}
+                                    className="px-2 py-2 rounded-lg text-[11px] transition-all duration-200 flex items-center gap-1.5 bg-white/[0.02] border border-white/[0.04] text-white/40"
+                                  >
+                                    <span className="w-4 h-4 rounded flex items-center justify-center text-[9px] font-black flex-shrink-0 bg-white/5 text-white/20">
+                                      {optionLabels[optIdx - 1]}
+                                    </span>
+                                    <span className="truncate leading-tight">{getOption(q, optIdx)}</span>
+                                  </div>
+                                )
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </motion.div>
+                )
+              })}
+            </div>
+          )}
+
+          {/* Start Quiz Button at Bottom */}
+          {filteredQuestions.length > 0 && (
+            <motion.div
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+            >
+              <Button
+                onClick={() => handleStartFromCategory(selectedCat)}
+                disabled={!playerName.trim()}
+                className="w-full bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white font-black rounded-2xl py-5 shadow-xl shadow-green-500/20 disabled:opacity-40 transition-all hover:scale-[1.01] relative overflow-hidden group"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
+                <Play className="w-5 h-5 mr-2 relative" />
+                <span className="relative">{t(lang, 'startQuiz')} ({filteredQuestions.length} {t(lang, 'questions')})</span>
+              </Button>
+            </motion.div>
+          )}
+
+          {/* Footer in list view too */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3 }}
+          >
+            <div className="relative rounded-3xl overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-blue-600/10 via-purple-600/5 to-red-600/10" />
+              <div className="absolute inset-0 border border-white/[0.06] rounded-3xl" />
+              <div className="relative p-6 space-y-4">
+                <div className="flex items-center justify-center gap-3" dir="rtl">
+                  <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-blue-500 via-purple-500 to-red-500 flex items-center justify-center shadow-lg shadow-purple-500/20">
+                    <Gamepad2 className="w-5 h-5 text-white" />
+                  </div>
+                  <div>
+                    <h3 className="text-white font-black text-base tracking-wide">
+                      7S SQUAD <span className="bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">PSYAR</span>
+                    </h3>
+                    <p className="text-white/30 text-[10px] font-bold">ئەپڵیکەیشنا پرسیار و بەرسڤ</p>
+                  </div>
+                </div>
+                <div className="flex items-center gap-3">
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                  <Heart className="w-3 h-3 text-red-400/30" />
+                  <div className="flex-1 h-px bg-gradient-to-r from-transparent via-white/10 to-transparent" />
+                </div>
+                <div className="flex items-center justify-center gap-4">
+                  <button className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center hover:bg-white/[0.08] hover:scale-110 transition-all">
+                    <Heart className="w-3.5 h-3.5 text-red-400/60" />
+                  </button>
+                  <button className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center hover:bg-white/[0.08] hover:scale-110 transition-all">
+                    <Share2 className="w-3.5 h-3.5 text-blue-400/60" />
+                  </button>
+                  <button className="w-8 h-8 rounded-full bg-white/[0.04] border border-white/[0.06] flex items-center justify-center hover:bg-white/[0.08] hover:scale-110 transition-all">
+                    <MessageCircle className="w-3.5 h-3.5 text-green-400/60" />
+                  </button>
+                </div>
+                <p className="text-center text-white/15 text-[9px] font-bold tracking-wider">
+                  7S SQUAD PSYAR v1.0
+                </p>
+              </div>
+            </div>
+          </motion.div>
+        </div>
       )}
     </motion.div>
   )
@@ -1150,7 +1645,7 @@ function QuizSection() {
   useEffect(() => {
     if (isAnswered || !quizQuestions.length) return
 
-    setTimeLeft(120)
+    setTimeLeft(60)
     timerRef.current = setInterval(() => {
       const current = useAppStore.getState().timeLeft
       if (current <= 1) {
@@ -1279,160 +1774,210 @@ function QuizSection() {
       setCurrentQuestionIndex(currentQuestionIndex + 1)
       setSelectedAnswer(null)
       setIsAnswered(false)
-      setTimeLeft(120)
+      setTimeLeft(60)
     }
   }
 
-  const getOptionStyle = (optIndex: number) => {
-    if (!isAnswered) {
-      return 'border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-white/20 cursor-pointer'
-    }
-    if (optIndex === currentQ.correctAnswer) {
-      return 'border-green-500/50 bg-green-500/10 shadow-lg shadow-green-500/10'
-    }
-    if (optIndex === selectedAnswer && optIndex !== currentQ.correctAnswer) {
-      return 'border-red-500/50 bg-red-500/10 shadow-lg shadow-red-500/10'
-    }
-    return 'border-white/5 bg-white/[0.01] opacity-50'
-  }
+  const optionLabels: Record<number, string> = { 1: 'A', 2: 'B', 3: 'C', 4: 'D' }
 
-  const getOptionIcon = (optIndex: number) => {
-    if (!isAnswered) return null
-    if (optIndex === currentQ.correctAnswer) return <CheckCircle2 className="w-5 h-5 text-green-400" />
-    if (optIndex === selectedAnswer && optIndex !== currentQ.correctAnswer) return <XCircle className="w-5 h-5 text-red-400" />
-    return null
-  }
-
-  const catName = lang === 'badini' ? currentQ.category.nameBadini : currentQ.category.nameSorani
+  const catName = currentQ ? (lang === 'badini' ? currentQ.category.nameBadini : currentQ.category.nameSorani) : ''
 
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       exit={{ opacity: 0, y: -20 }}
-      className="max-w-2xl mx-auto px-4 pt-4 pb-8"
+      className="max-w-lg mx-auto px-3 pt-3 pb-6"
     >
-      {/* Top bar */}
-      <div className="flex items-center justify-between mb-4">
+      {/* Compact Top bar */}
+      <div className="flex items-center justify-between mb-3 px-1">
         <button
           onClick={() => setTab('home')}
-          className="flex items-center gap-1.5 text-white/50 hover:text-white/80 text-xs transition-colors"
+          className="flex items-center gap-1 text-white/40 hover:text-white/70 text-[11px] transition-colors"
         >
-          <ArrowLeft className="w-4 h-4" />
+          <ArrowLeft className="w-3.5 h-3.5" />
           {t(lang, 'backToHome')}
         </button>
-        <div className="flex items-center gap-2">
-          <Badge className="bg-purple-500/10 text-purple-300/70 border-purple-500/15 text-[10px]">
+        <div className="flex items-center gap-1.5">
+          <Badge className="bg-purple-500/15 text-purple-300/80 border-purple-500/20 text-[9px] px-2 py-0">
             {catName}
           </Badge>
-          <Badge className="bg-yellow-500/10 text-yellow-300/70 border-yellow-500/15 text-[10px] flex items-center gap-1">
-            <Star className="w-2.5 h-2.5 fill-yellow-400" />
+          <Badge className="bg-yellow-500/15 text-yellow-300/80 border-yellow-500/20 text-[9px] px-2 py-0 flex items-center gap-0.5">
+            <Star className="w-2 h-2 fill-yellow-400 text-yellow-400" />
             {score}
           </Badge>
         </div>
       </div>
 
-      <Card className="bg-white/[0.04] backdrop-blur-xl border-white/10 shadow-2xl overflow-hidden">
-        <div className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500" />
-        <CardContent className="p-6 space-y-5">
-          {/* Timer + Progress */}
-          <div className="flex items-center justify-between">
-            <CircularTimer timeLeft={timeLeft} maxTime={120} />
-            <div className="text-center" dir="rtl">
-              <span className="text-white/40 text-xs">{t(lang, 'question')}</span>
-              <div className="text-white font-bold text-lg">
-                {currentQuestionIndex + 1} {t(lang, 'of')} {quizQuestions.length}
-              </div>
-            </div>
-          </div>
-
-          {/* Progress bar */}
-          <div className="w-full bg-white/5 rounded-full h-1.5">
-            <motion.div
-              className="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${((currentQuestionIndex + 1) / quizQuestions.length) * 100}%` }}
-              transition={{ duration: 0.3 }}
-            />
-          </div>
-
-          {/* Question */}
-          <div className="text-center" dir="rtl">
-            <motion.p
-              key={currentQuestionIndex}
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="text-white text-lg font-bold leading-relaxed"
-            >
-              {lang === 'badini' ? currentQ.textBadini : currentQ.textSorani}
-            </motion.p>
-          </div>
-
-          {/* Options */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            {[1, 2, 3, 4].map((optIdx) => (
-              <motion.button
-                key={optIdx}
-                whileHover={!isAnswered ? { scale: 1.02 } : {}}
-                whileTap={!isAnswered ? { scale: 0.98 } : {}}
-                onClick={() => handleAnswer(optIdx)}
-                disabled={isAnswered}
-                className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all duration-300 ${getOptionStyle(optIdx)}`}
-                dir="rtl"
-              >
-                <span className={`w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold flex-shrink-0 ${
-                  isAnswered && optIdx === currentQ.correctAnswer ? 'bg-green-500/20 text-green-300' :
-                  isAnswered && optIdx === selectedAnswer && optIdx !== currentQ.correctAnswer ? 'bg-red-500/20 text-red-300' :
-                  'bg-white/5 text-white/50'
-                }`}>
-                  {optIdx}
-                </span>
-                <span className="text-white/90 text-sm flex-1 text-right">{getOptionText(currentQ, optIdx)}</span>
-                {getOptionIcon(optIdx)}
-              </motion.button>
-            ))}
-          </div>
-
-          {/* Feedback */}
-          <AnimatePresence>
-            {isAnswered && (
-              <motion.div
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0 }}
-                className={`text-center p-3 rounded-xl ${
-                  selectedAnswer === currentQ.correctAnswer
-                    ? 'bg-green-500/10 border border-green-500/20'
-                    : 'bg-red-500/10 border border-red-500/20'
-                }`}
-                dir="rtl"
-              >
-                {selectedAnswer === currentQ.correctAnswer ? (
-                  <div className="flex items-center justify-center gap-2">
-                    <CheckCircle2 className="w-5 h-5 text-green-400" />
-                    <span className="text-green-300 font-bold text-sm">{t(lang, 'correct')}</span>
+      {/* Carousel Quiz - Swipe between questions */}
+      <div className="relative overflow-hidden rounded-2xl">
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={currentQuestionIndex}
+            initial={{ opacity: 0, x: 50 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -50 }}
+            transition={{ duration: 0.25, ease: 'easeInOut' }}
+          >
+            <Card className="bg-[#0d1442]/95 backdrop-blur-xl border-white/10 shadow-2xl overflow-hidden">
+              <div className="h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-red-500" />
+              <CardContent className="p-4 space-y-3">
+                {/* Timer + Progress Row */}
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <CircularTimer timeLeft={timeLeft} maxTime={60} />
                   </div>
-                ) : (
-                  <div className="flex items-center justify-center gap-2">
-                    <XCircle className="w-5 h-5 text-red-400" />
-                    <span className="text-red-300 font-bold text-sm">{t(lang, 'wrong')}</span>
+                  <div className="flex-1 mx-3">
+                    <div className="w-full bg-white/5 rounded-full h-1.5 mb-1">
+                      <motion.div
+                        className="bg-gradient-to-r from-blue-500 to-purple-500 h-1.5 rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${((currentQuestionIndex + 1) / quizQuestions.length) * 100}%` }}
+                        transition={{ duration: 0.3 }}
+                      />
+                    </div>
+                    <div className="text-center" dir="rtl">
+                      <span className="text-white/30 text-[10px]">{currentQuestionIndex + 1} {t(lang, 'of')} {quizQuestions.length}</span>
+                    </div>
                   </div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
+                </div>
 
-          {/* Next button (manual) */}
-          {isAnswered && (
-            <Button
-              onClick={handleNext}
-              className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-xl py-4"
-            >
-              {currentQuestionIndex + 1 >= quizQuestions.length ? t(lang, 'viewResults') : t(lang, 'nextQuestion')}
-            </Button>
-          )}
-        </CardContent>
-      </Card>
+                {/* Question */}
+                <div className="bg-white/[0.03] rounded-xl p-3 border border-white/[0.05]" dir="rtl">
+                  <p className="text-white text-[15px] font-bold leading-relaxed text-center">
+                    {lang === 'badini' ? currentQ.textBadini : currentQ.textSorani}
+                  </p>
+                </div>
+
+                {/* Options - 2x2 grid with clear selection feedback */}
+                <div className="grid grid-cols-2 gap-2">
+                  {[1, 2, 3, 4].map((optIdx) => {
+                    const isCorrect = isAnswered && optIdx === currentQ.correctAnswer
+                    const isSelected = isAnswered && optIdx === selectedAnswer
+                    const isWrong = isSelected && optIdx !== currentQ.correctAnswer
+                    const isOther = isAnswered && !isCorrect && !isWrong
+
+                    return (
+                      <motion.button
+                        key={optIdx}
+                        whileTap={!isAnswered ? { scale: 0.94 } : {}}
+                        onClick={() => handleAnswer(optIdx)}
+                        disabled={isAnswered}
+                        className={`relative flex flex-col items-center gap-1.5 p-3 rounded-xl border-2 transition-all duration-300 min-h-[80px] justify-center ${
+                          isCorrect
+                            ? 'border-green-400/60 bg-green-500/20 shadow-lg shadow-green-500/20'
+                            : isWrong
+                            ? 'border-red-400/60 bg-red-500/20 shadow-lg shadow-red-500/20'
+                            : isOther
+                            ? 'border-white/[0.03] bg-white/[0.01] opacity-30'
+                            : 'border-white/10 bg-white/[0.03] hover:bg-white/[0.08] hover:border-blue-400/30 cursor-pointer'
+                        }`}
+                        dir="rtl"
+                      >
+                        {/* Selected/correct ring animation */}
+                        {isCorrect && (
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-green-500 flex items-center justify-center shadow-md"
+                          >
+                            <CheckCircle2 className="w-3 h-3 text-white" />
+                          </motion.div>
+                        )}
+                        {isWrong && (
+                          <motion.div
+                            initial={{ scale: 0 }}
+                            animate={{ scale: 1 }}
+                            className="absolute -top-1 -left-1 w-5 h-5 rounded-full bg-red-500 flex items-center justify-center shadow-md"
+                          >
+                            <XCircle className="w-3 h-3 text-white" />
+                          </motion.div>
+                        )}
+
+                        {/* Label badge */}
+                        <span className={`w-7 h-7 rounded-lg flex items-center justify-center text-[12px] font-black flex-shrink-0 transition-colors ${
+                          isCorrect
+                            ? 'bg-green-500/30 text-green-200'
+                            : isWrong
+                            ? 'bg-red-500/30 text-red-200'
+                            : 'bg-white/10 text-white/40'
+                        }`}>
+                          {optionLabels[optIdx]}
+                        </span>
+
+                        {/* Option text */}
+                        <span className={`text-[12px] font-bold leading-tight text-center transition-colors ${
+                          isCorrect ? 'text-green-200' : isWrong ? 'text-red-200' : isOther ? 'text-white/20' : 'text-white/80'
+                        }`}>
+                          {getOptionText(currentQ, optIdx)}
+                        </span>
+                      </motion.button>
+                    )
+                  })}
+                </div>
+
+                {/* Feedback + Next - compact combined */}
+                <AnimatePresence>
+                  {isAnswered && (
+                    <motion.div
+                      initial={{ opacity: 0, height: 0 }}
+                      animate={{ opacity: 1, height: 'auto' }}
+                      exit={{ opacity: 0, height: 0 }}
+                      className="space-y-2 overflow-hidden"
+                    >
+                      {/* Feedback badge */}
+                      <div
+                        className={`flex items-center justify-center gap-1.5 py-2 rounded-lg ${
+                          selectedAnswer === currentQ.correctAnswer
+                            ? 'bg-green-500/10 border border-green-500/15'
+                            : 'bg-red-500/10 border border-red-500/15'
+                        }`}
+                        dir="rtl"
+                      >
+                        {selectedAnswer === currentQ.correctAnswer ? (
+                          <>
+                            <CheckCircle2 className="w-4 h-4 text-green-400" />
+                            <span className="text-green-300 font-bold text-xs">{t(lang, 'correct')}</span>
+                          </>
+                        ) : (
+                          <>
+                            <XCircle className="w-4 h-4 text-red-400" />
+                            <span className="text-red-300 font-bold text-xs">{t(lang, 'wrong')}</span>
+                          </>
+                        )}
+                      </div>
+
+                      {/* Next button */}
+                      <Button
+                        onClick={handleNext}
+                        className="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white font-bold rounded-xl py-3 text-sm"
+                      >
+                        {currentQuestionIndex + 1 >= quizQuestions.length ? t(lang, 'viewResults') : t(lang, 'nextQuestion')}
+                      </Button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </CardContent>
+            </Card>
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      {/* Carousel dot indicators */}
+      <div className="flex items-center justify-center gap-1 mt-3">
+        {quizQuestions.map((_, i) => (
+          <div
+            key={i}
+            className={`rounded-full transition-all duration-300 ${
+              i === currentQuestionIndex
+                ? 'w-5 h-1.5 bg-gradient-to-r from-blue-500 to-purple-500'
+                : i < currentQuestionIndex
+                ? 'w-1.5 h-1.5 bg-green-400/40'
+                : 'w-1.5 h-1.5 bg-white/15'
+            }`}
+          />
+        ))}
+      </div>
     </motion.div>
   )
 }
